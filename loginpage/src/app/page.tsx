@@ -1,12 +1,29 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 export default function LandingPage() {
   const [errorMessage, setErrorMessage] = useState('');
   const [formState, setFormState] = useState(2);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  console.log('router: ', router);
+  console.log('pathname: ', pathname);
+  console.log('searchParams: ', searchParams);
+
+  useEffect(() => {
+    const form = searchParams.get('form');
+    if (form === 'login') {
+      setFormState(1);
+    } else {
+      setFormState(2);
+    }
+  }, [searchParams]);
 
   return (
     <div className='h-screen'>
